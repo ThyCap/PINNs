@@ -9,13 +9,8 @@ import time
 
 class FCN(nn.Module):
     "Defines a connected network"
-<<<<<<< HEAD
-    
-    def __init__(self, layers, x_domain, x_boundary, y_boundary, x_test, partial_diff_equation):
-=======
 
     def __init__(self, layers, x_domain, x_boundary, y_boundary, partial_diff_equation):
->>>>>>> abc7c94a52fd2fa6c0fe960eea649434c6b9b8ef
         # super().__init__()
         # activation = nn.Tanh
         # self.fcs = nn.Sequential(*[
@@ -33,12 +28,7 @@ class FCN(nn.Module):
         self.x_domain = x_domain
         self.x_boundary = x_boundary
         self.y_boundary = y_boundary
-<<<<<<< HEAD
-        self.x_test = x_test
-              
-=======
 
->>>>>>> abc7c94a52fd2fa6c0fe960eea649434c6b9b8ef
         'activation function'
         self.activation = nn.Tanh()
 
@@ -56,11 +46,7 @@ class FCN(nn.Module):
 
         self.iter = 0
         self.startTime = time.time()
-<<<<<<< HEAD
-        self.totalElapsedTimeHistory = [0]
-=======
         self.timeHistory = [0]
->>>>>>> abc7c94a52fd2fa6c0fe960eea649434c6b9b8ef
         self.float()
 
         self.partial_diff_equation = partial_diff_equation
@@ -83,15 +69,6 @@ class FCN(nn.Module):
             nn.init.zeros_(self.linears[i].bias.data)
 
     def forward(self, x):
-<<<<<<< HEAD
-        if torch.is_tensor(x) != True:         
-            x = torch.from_numpy(x)                
-                      
-        #preprocessing input 
-        x = (x - lb)/(ub - lb) #feature scaling
-        
-        #convert to float
-=======
         if torch.is_tensor(x) != True:
             x = torch.from_numpy(x)
 
@@ -102,7 +79,6 @@ class FCN(nn.Module):
         x = (x - l_b)/(u_b - l_b)  # feature scaling
 
         # convert to float
->>>>>>> abc7c94a52fd2fa6c0fe960eea649434c6b9b8ef
         a = x.float()
 
         for i in range(len(layers)-2):
@@ -159,17 +135,6 @@ class FCN(nn.Module):
         loss.backward()
 
         self.iter += 1
-<<<<<<< HEAD
-        self.totalElapsedTimeHistory.append(time.time() - self.startTime)
-
-        if self.iter % 50 == 1 or self.iter == 1:
-            print("Iter \t\t Total Loss \t\t Loss per element \t Mean Loss_BC \t\t Mean Loss_PDE \t\t Total Elapsed Time (s)")
-
-        if self.iter % 5 == 0:
-            error_vec, _ = self.test()
-            
-            print("%i \t\t %.3e \t\t %.3e \t\t %.3e \t\t %.3e \t\t %.3e" % (self.iter, loss.item(),loss.item()/(N_x*N_y), loss_bc, loss_pde, self.totalElapsedTimeHistory[-1]))
-=======
         self.timeHistory.append(time.time() - self.startTime)
 
         if self.iter % 50 == 1 or self.iter == 1:
@@ -178,7 +143,6 @@ class FCN(nn.Module):
 
         if self.iter % 5 == 0:
             error_vec, _ = self.test()
->>>>>>> abc7c94a52fd2fa6c0fe960eea649434c6b9b8ef
 
             print("%i \t\t %.3e \t\t %.3e \t\t %.3e \t\t %.3e \t\t %.3e" % (
                 self.iter, loss.item(), loss.item()/(N_x*N_y), loss_bc, loss_pde, self.timeHistory[-1]))
@@ -186,19 +150,11 @@ class FCN(nn.Module):
         return loss
 
     def test(self):
-        X_test = self.x_test
-
         u_pred = self.forward(X_test)
         u = torch.zeros(u_pred.shape)
         # L2 Norm of the error (Vector)
         error_vec = torch.linalg.norm((u-u_pred), 2)
         u_pred = u_pred.cpu().detach().numpy()
-<<<<<<< HEAD
-        u_pred = np.reshape(u_pred,(N_x, N_y),order='F')
-                
-        return error_vec, u_pred 
-=======
         u_pred = np.reshape(u_pred, (100, 100), order='F')
 
         return error_vec, u_pred
->>>>>>> abc7c94a52fd2fa6c0fe960eea649434c6b9b8ef
