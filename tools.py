@@ -24,9 +24,9 @@ y_min, y_max, N_y = 0, 1, 500
 N_u = 800
 N_f = 100_000
 
-steps=1_000
+steps=10_000
 lr=1e-1
-layers = np.array([2,48,48,48,48,48,48,48,48,1]) #8 hidden layers
+layers = np.array([2,32,32,32,32,32,32,32,32,1]) #8 hidden layers
 tolerance = 1e-6
 
 #Domain bounds

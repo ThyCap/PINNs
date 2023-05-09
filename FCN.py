@@ -51,13 +51,14 @@ class FCN(nn.Module):
         self.partial_diff_equation = partial_diff_equation
 
         'L-BFGS Optimizer'
-        self.optimizer = optim.LBFGS(self.parameters(), lr, 
-                              max_iter = steps, 
-                              max_eval = None, 
-                              tolerance_grad = 1e-14, 
-                              tolerance_change = 1e-14, 
-                              history_size = steps, 
-                              line_search_fn = 'strong_wolfe')
+        self.optimizer = optim.LBFGS(self.parameters(), 
+                                    lr, 
+                                    max_iter = steps, 
+                                    max_eval = None, 
+                                    tolerance_grad = 1e-14, 
+                                    tolerance_change = 1e-14, 
+                                    history_size = steps, 
+                                    line_search_fn = 'strong_wolfe')
     
         'Xavier Normal Initialization'
         for i in range(len(layers)-1):
@@ -66,7 +67,6 @@ class FCN(nn.Module):
             
             # set biases to zero
             nn.init.zeros_(self.linears[i].bias.data)
-
 
     def forward(self, x):
         if torch.is_tensor(x) != True:         
